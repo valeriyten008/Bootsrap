@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+
+    <title>MY_APP_USER</title>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-black">
+    <div class="container-fluid">
+        <span class="navbar-brand ms-3 h0">ADMIN</span>
+        <ul class="navbar-nav ms-3">
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="d-flex align-items-start w-100">
+    <!-- Навигация по вкладкам -->
+    <div class="nav flex-column nav-pills me-3 mt-5" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="width: 220px">
+        <button class="nav-link active" id="v-pills-admin-tab" data-bs-toggle="pill" data-bs-target="#v-pills-admin" type="button" role="tab" aria-controls="v-pills-admin" aria-selected="true">USER</button>
+    </div>
+
+    <!-- Контент вкладки -->
+    <div class="tab-content flex-grow-1 mt-5" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab">
+            <div class="border text-bg-light rounded-top">
+                <h5 class="p-3 m-0">User Information</h5>
+            </div>
+            <div class="border bg-white p-4 rounded-bottom">
+                <table class="table table-striped" id="tableUsers">
+                    <thead>
+                    <tr class="border-top align-middle" style="height: 50px">
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.firstName}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.age}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td>
+                            <span th:each="role : ${user.roles}" th:text="${role.name} + ' '"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
