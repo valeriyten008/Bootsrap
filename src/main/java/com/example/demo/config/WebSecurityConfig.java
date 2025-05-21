@@ -3,7 +3,6 @@ package com.example.demo.config;
 import com.example.demo.service.CustomUserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -30,18 +29,13 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/user/create").hasRole("ADMIN")
-                        .requestMatchers("/user/*/edit").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/user/*").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/user/*/delete").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/user/*/delete").hasRole("ADMIN")
+                        .requestMatchers("/user/user-profile").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()
                         .successHandler(successUserHandler)
-                )
-                .logout(logout -> logout.permitAll());
+                );
 
         return http.build();
     }
