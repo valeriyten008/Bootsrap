@@ -28,12 +28,12 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/user/user-profile").hasRole("ADMIN")
+                        .requestMatchers("/user/admin-panel").hasAnyRole( "ADMIN")
+                        .requestMatchers("/user/user-profile").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login").permitAll()
+                        .permitAll()
                         .successHandler(successUserHandler)
                 );
 

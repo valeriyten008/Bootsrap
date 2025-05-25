@@ -30,12 +30,20 @@ public class UserController {
     }
 
 
-    @GetMapping
-    public String getAllUsers(Model model) {
+    @GetMapping("/admin-panel")
+    public String adminPanel(Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
+
+        // Добавляем пустой объект user, чтобы форма не падала
+        model.addAttribute("user", new User());
+
+        // Если ты в форме даёшь выбор ролей, это тоже важно
+        model.addAttribute("allRoles", roleService.findAll());
+
         return "user/admin-panel";
     }
+
 
     @GetMapping("/{id}")
     public String findUserById(@PathVariable("id") Long id, Model model) {
@@ -44,7 +52,7 @@ public class UserController {
             model.addAttribute("user", user.get());
             return "user/user-profile";
         } else {
-            return "redirect:/user";
+            return "redirect:/user/admin-panel";
         }
     }
     @PostMapping
@@ -58,18 +66,18 @@ public class UserController {
         }
 
         userService.save(user, roleId);
-        return "redirect:/user";
+        return "redirect:/user/admin-panel";
     }
     @PostMapping("/{id}/edit")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
         userService.updateUser(id, user);
-        return "redirect:/user";
+        return "redirect:/user/admin-panel";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteById(id);
-        return "redirect:/user";
+        return "redirect:/user/admin-panel";
 
     }
     @GetMapping("/profile")
@@ -79,4 +87,5 @@ public class UserController {
         model.addAttribute("roles", user.getRoles());
         return "user/user-profile";
     }
+
 }
