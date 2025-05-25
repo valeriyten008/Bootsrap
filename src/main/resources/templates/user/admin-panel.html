@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Bootstrap CSS -->
-  <link href="/static/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/bootstrap.css" rel="stylesheet">
 
   <title>MY_APP</title>
 </head>
@@ -29,7 +29,11 @@
 <div class="d-flex align-items-start">
   <div class="nav flex-column nav-pills me-3 mt-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
     <button class="nav-link active" style = "width:220px" id="v-pills-admin-tab" data-bs-toggle="pill" data-bs-target="#v-pills-admin" type="button" role="tab" aria-controls="v-pills-admin" aria-selected="true">ADMIN</button>
-    <button class="nav-link" id="v-pills-user-tab" data-bs-toggle="pill" data-bs-target="#v-pills-user" type="button" role="tab" aria-controls="v-pills-user" aria-selected="false">USER</button>
+      <button class="nav-link" id="v-pills-user-tab" data-bs-toggle="pill" data-bs-target="#v-pills-user"
+              type="button" role="tab" aria-controls="v-pills-user" aria-selected="false">
+          USER
+      </button>
+
   </div>
 
   <div class="tab-content flex-grow-1" id="v-pills-tabContent">
@@ -305,7 +309,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="user : ${users}">
+                        <tr>
                             <td th:text="${user.id}"></td>
                             <td th:text="${user.firstName}"></td>
                             <td th:text="${user.lastName}"></td>
@@ -315,6 +319,7 @@
                         </tr>
                         </tbody>
 
+
                     </table>
                 </div>
             </div>
@@ -323,6 +328,6 @@
   </div>
 </div>
 
-<script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
