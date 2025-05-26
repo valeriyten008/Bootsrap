@@ -4,11 +4,11 @@ import jakarta.transaction.Transactional;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.demo.repository.UserRepository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,11 +18,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService) {
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -31,14 +33,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user, List<Long> roleId) {
-        List<Role> roles = roleId.stream()
+    public void save(User user, List<Long> roleIds) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // Получаем список ролей по их id
+        List<Role> roles = roleIds.stream()
                 .map(roleService::findById)
-                .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+
+        // Устанавливаем роли пользователю
         user.setRoles(roles);
+
+        // Сохраняем пользователя в базу
         userRepository.save(user);
     }
+
 
 
     @Override

@@ -31,7 +31,7 @@ public class UserController {
 
 
     @GetMapping("/admin-panel")
-    public String adminPanel(Model model) {
+    public String adminPanel(Model model, Principal principal) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
 
@@ -41,9 +41,12 @@ public class UserController {
         // Если ты в форме даёшь выбор ролей, это тоже важно
         model.addAttribute("allRoles", roleService.findAll());
 
+        User adminUser = userService.findByEmail(principal.getName());
+        model.addAttribute("adminUser", adminUser);
+        model.addAttribute("roles", adminUser.getRoles());
+
         return "user/admin-panel";
     }
-
 
     @GetMapping("/{id}")
     public String findUserById(@PathVariable("id") Long id, Model model) {
@@ -55,7 +58,7 @@ public class UserController {
             return "redirect:/user/admin-panel";
         }
     }
-    @PostMapping
+    @PostMapping("create")
     public String createUser(@ModelAttribute("user") @Valid User user,
                              BindingResult bindingResult,
                              @RequestParam(value = "roleId", required = false) List<Long> roleId,
@@ -68,6 +71,7 @@ public class UserController {
         userService.save(user, roleId);
         return "redirect:/user/admin-panel";
     }
+
     @PostMapping("/{id}/edit")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
         userService.updateUser(id, user);

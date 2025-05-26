@@ -29,7 +29,7 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/admin-panel").hasAnyRole( "ADMIN")
-                        .requestMatchers("/user/user-profile").hasRole("USER")
+                        .requestMatchers("/user/profile").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
